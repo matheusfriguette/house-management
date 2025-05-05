@@ -1,30 +1,47 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import Sidebar from "../_components/layout/Sidebar";
+"use client";
 
-export default async function ProtectedLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const supabase = createServerComponentClient({ cookies });
+import { ThemeSelector } from "@/components/theme-selector";
+import { Navbar, NavbarDivider, NavbarItem, NavbarLabel, NavbarSection, NavbarSpacer } from "@/components/ui/navbar";
+import {
+  Sidebar,
+  SidebarBody,
+  SidebarHeader,
+  SidebarItem,
+  SidebarLabel,
+  SidebarSection,
+} from "@/components/ui/sidebar";
+import { StackedLayout } from "@/components/ui/stacked-layout";
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session) {
-    redirect("/login");
-  }
-
+export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen">
-      <div className="hidden lg:flex">
-        <Sidebar />
-      </div>
-
-      <main className="flex-1 overflow-auto">{children}</main>
-    </div>
+    <StackedLayout
+      navbar={
+        <Navbar>
+          <NavbarLabel>House Management</NavbarLabel>
+          <NavbarDivider className="max-lg:hidden" />
+          <NavbarSection className="max-lg:hidden">
+            <NavbarItem href="/ambientes">Ambientes</NavbarItem>
+          </NavbarSection>
+          <NavbarSpacer />
+          <NavbarSection>
+            <ThemeSelector />
+          </NavbarSection>
+        </Navbar>
+      }
+      sidebar={
+        <Sidebar>
+          <SidebarHeader>
+            <SidebarLabel>House management</SidebarLabel>
+          </SidebarHeader>
+          <SidebarBody>
+            <SidebarSection>
+              <SidebarItem href="/ambientes">Ambientes</SidebarItem>
+            </SidebarSection>
+          </SidebarBody>
+        </Sidebar>
+      }
+    >
+      {children}
+    </StackedLayout>
   );
 }

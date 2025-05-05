@@ -1,6 +1,32 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { Priority } from "@/lib/types";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
+}
+
+export function getPriorityBadge(priority: Priority) {
+  const badge: {
+    [priority]: { color: "red" | "yellow" | "green"; label: string };
+  } = {
+    high: {
+      color: "red",
+      label: "Alta",
+    },
+    medium: {
+      color: "yellow",
+      label: "Média",
+    },
+    low: {
+      color: "green",
+      label: "Baixa",
+    },
+  };
+
+  return badge[priority];
+}
+
+export function formatMoney(value: number) {
+  return Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
 }

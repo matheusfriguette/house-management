@@ -1,6 +1,17 @@
 
 
-
+// IDEAS
 Use link previews
 Drag and drop
 Show only items when room is selected
+
+// IMPROVEMENTS
+Loading skeletons
+Snackbar for error and success
+Modal and drawer
+Validate URL in backend
+
+// Next steps
+Implement toggle favorite
+Implement toggle purchased
+Implement edit item
