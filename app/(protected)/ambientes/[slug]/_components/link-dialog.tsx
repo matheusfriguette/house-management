@@ -14,16 +14,16 @@ import { FieldGroup } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { createPurchaseOption, deletePurchaseOption } from "@/lib/api/purchase-options";
 import { CreatePurchaseOptionDto, createPurchaseOptionSchema } from "@/lib/dtos";
-import { PurchaseOption } from "@/lib/types";
+import { PurchaseOption, Room } from "@/lib/types";
 import { LinkList } from "./link-list";
 
 export default function LinkDialog({
-  roomId,
   itemId,
+  roomSlug,
   purchaseOptions,
 }: {
-  roomId: string;
   itemId: string;
+  roomSlug: string;
   purchaseOptions: PurchaseOption[];
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,15 +34,29 @@ export default function LinkDialog({
     resolver: zodResolver(createPurchaseOptionSchema),
     defaultValues: {
       url: "",
-      price: "",
       itemId: itemId,
     },
   });
 
   const createPurchaseOptionMutation = useMutation({
     mutationFn: async (data: CreatePurchaseOptionDto) => createPurchaseOption(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["room", roomId] });
+    onSuccess: (purchaseOption) => {
+      queryClient.setQueryData(["room", roomSlug], (room: Room) => {
+        if (!room) return room;
+
+        return {
+          ...room,
+          items: room.items.map((item) =>
+            item.id === itemId
+              ? {
+                  ...item,
+                  purchaseOptions: [...item.purchaseOptions, purchaseOption],
+                }
+              : item,
+          ),
+        };
+      });
+
       setIsAdding(false);
       form.reset();
     },
@@ -51,7 +65,7 @@ export default function LinkDialog({
   const deletePurchaseOptionMutation = useMutation({
     mutationFn: async (id: string) => deletePurchaseOption(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["room", roomId] });
+      queryClient.invalidateQueries({ queryKey: ["room"] });
     },
   });
 
@@ -79,19 +93,9 @@ export default function LinkDialog({
             {isAdding && (
               <Fieldset className="mt-4">
                 <FieldGroup>
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                    <Field className="sm:col-span-2">
-                      <Input placeholder="URL" {...form.register("url")} invalid={Boolean(form.formState.errors.url)} />
-                    </Field>
-
-                    <Field>
-                      <Input
-                        placeholder="Preço"
-                        {...form.register("price")}
-                        invalid={Boolean(form.formState.errors.price)}
-                      />
-                    </Field>
-                  </div>
+                  <Field className="sm:col-span-2">
+                    <Input placeholder="URL" {...form.register("url")} invalid={Boolean(form.formState.errors.url)} />
+                  </Field>
                 </FieldGroup>
               </Fieldset>
             )}

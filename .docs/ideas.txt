@@ -15,3 +15,4 @@ Validate URL in backend
 Implement toggle favorite
 Implement toggle purchased
 Implement edit item
+Implement delete item

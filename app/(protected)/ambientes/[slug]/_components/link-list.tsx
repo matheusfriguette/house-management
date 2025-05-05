@@ -2,7 +2,6 @@ import { StarIcon, TrashIcon } from "@heroicons/react/20/solid";
 
 import { Button } from "@/components/ui/button";
 import { PurchaseOption } from "@/lib/types";
-import { formatMoney } from "@/lib/utils";
 
 export function LinkList({
   purchaseOptions,
@@ -20,7 +19,7 @@ export function LinkList({
               {new URL(option.url).hostname}
             </a>
 
-            <div className="text-zinc-500 dark:text-zinc-400">{formatMoney(option.price)}</div>
+            {/* <div className="text-zinc-500 dark:text-zinc-400">{formatMoney(option.price)}</div> */}
           </div>
 
           <div className="flex items-center gap-1">

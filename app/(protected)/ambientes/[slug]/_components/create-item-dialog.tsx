@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Radio } from "@/components/ui/radio";
 import { createItem } from "@/lib/api/items";
 import { CreateItemDto, createItemSchema } from "@/lib/dtos";
-import { Priority } from "@/lib/types";
+import { Priority, Room } from "@/lib/types";
 import { getPriorityBadge } from "@/lib/utils";
 
 export function CreateItemDialog({ roomId, roomSlug }: { roomId: string; roomSlug: string }) {
@@ -39,14 +39,23 @@ export function CreateItemDialog({ roomId, roomSlug }: { roomId: string; roomSlu
 
   const mutation = useMutation({
     mutationFn: async (data: CreateItemDto) => createItem(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["room", roomSlug] });
+    onSuccess: (item) => {
+      console.log(item);
+      queryClient.setQueryData(["room", roomSlug], (room: Room) => {
+        if (!room) return room;
+
+        return {
+          ...room,
+          items: [...room.items, item],
+        };
+      });
+
       setIsOpen(false);
       reset();
     },
   });
 
-  const submitForm = async (data: CreateItemDto) => {
+  const handleCreateItem = async (data: CreateItemDto) => {
     mutation.mutate(data);
   };
 
@@ -57,7 +66,7 @@ export function CreateItemDialog({ roomId, roomSlug }: { roomId: string; roomSlu
       </Button>
 
       <Dialog open={isOpen} onClose={setIsOpen}>
-        <form onSubmit={handleSubmit(submitForm)}>
+        <form onSubmit={handleSubmit(handleCreateItem)}>
           <DialogTitle>Adicionar item</DialogTitle>
           <DialogBody>
             <Fieldset>

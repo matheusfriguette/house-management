@@ -18,7 +18,6 @@ export const createItemSchema = z.object({
 
 export const createPurchaseOptionSchema = z.object({
   url: z.string().min(1, "Campo obrigatório").url("O campo precisa ser uma URL válida"),
-  price: z.string(),
   itemId: z.string(),
 });
 

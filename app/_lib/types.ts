@@ -19,6 +19,13 @@ export type Item = {
 export type PurchaseOption = {
   id: string;
   url: string;
-  price: number;
   isFavorite: boolean;
+  metadata: Metadata;
+};
+
+export type Metadata = {
+  id: string;
+  imageUrl: string;
+  price: number;
+  title: string;
 };
