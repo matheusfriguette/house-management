@@ -1,15 +1,14 @@
 
 
 // IDEAS
-Use link previews
 Drag and drop
-Show only items when room is selected
 
 // IMPROVEMENTS
 Loading skeletons
 Snackbar for error and success
 Modal and drawer
 Loading in button forms
+Make login more reliable
 
 // Next steps
 Make purchased toggle better
