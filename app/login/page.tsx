@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-export default function LoginPage() {
+export default function Page() {
   const router = useRouter();
 
   const { register, handleSubmit } = useForm<LoginDto>({

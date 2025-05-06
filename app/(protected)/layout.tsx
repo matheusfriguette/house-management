@@ -1,6 +1,9 @@
 "use client";
 
-import { ThemeSelector } from "@/components/theme-selector";
+import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
+import { useTheme } from "next-themes";
+
+import { Button } from "@/components/ui/button";
 import { Navbar, NavbarDivider, NavbarItem, NavbarLabel, NavbarSection, NavbarSpacer } from "@/components/ui/navbar";
 import {
   Sidebar,
@@ -13,18 +16,28 @@ import {
 import { StackedLayout } from "@/components/ui/stacked-layout";
 
 export default function ProtectedLayout({ children }: { children: React.ReactNode }) {
+  const { theme, setTheme } = useTheme();
+
   return (
     <StackedLayout
       navbar={
         <Navbar>
-          <NavbarLabel>House Management</NavbarLabel>
+          <NavbarLabel>Casa</NavbarLabel>
           <NavbarDivider className="max-lg:hidden" />
           <NavbarSection className="max-lg:hidden">
             <NavbarItem href="/ambientes">Ambientes</NavbarItem>
           </NavbarSection>
           <NavbarSpacer />
           <NavbarSection>
-            <ThemeSelector />
+            {theme === "light" ? (
+              <Button plain onClick={() => setTheme("dark")}>
+                <SunIcon />
+              </Button>
+            ) : (
+              <Button plain onClick={() => setTheme("light")}>
+                <MoonIcon />
+              </Button>
+            )}
           </NavbarSection>
         </Navbar>
       }

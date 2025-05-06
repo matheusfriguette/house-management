@@ -2,9 +2,10 @@
 
 import { useQuery } from "@tanstack/react-query";
 
+import { SlugProvider } from "@/components/slug-context";
 import { Heading } from "@/components/ui/heading";
 import { getRoom } from "@/lib/api/rooms";
-import { CreateItemDialog } from "./create-item-dialog";
+import { CreateEditItemDialog } from "./create-edit-item-dialog";
 import { ItemCard } from "./item-card";
 
 export function RoomContent({ slug }: { slug: string }) {
@@ -21,21 +22,23 @@ export function RoomContent({ slug }: { slug: string }) {
 
   if (isSuccess) {
     return (
-      <>
+      <SlugProvider slug={slug}>
         <div className="flex items-center justify-between">
           <Heading>{room.name}</Heading>
 
-          <CreateItemDialog roomId={room.id} roomSlug={slug} />
+          <CreateEditItemDialog roomId={room.id} />
         </div>
 
-        <ul className="mt-10 divide-y divide-zinc-950/10 rounded-lg border border-zinc-950/10 dark:divide-white/10 dark:border-white/10">
-          {room.items.map((item) => (
-            <li key={item.id}>
-              <ItemCard item={item} />
-            </li>
-          ))}
-        </ul>
-      </>
+        {room.items.length > 0 && (
+          <ul className="mt-10 divide-y divide-zinc-950/10 rounded-lg border border-zinc-950/10 dark:divide-white/10 dark:border-white/10">
+            {room.items.map((item) => (
+              <li key={item.id}>
+                <ItemCard roomId={room.id} item={item} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </SlugProvider>
     );
   }
 }

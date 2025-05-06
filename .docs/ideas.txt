@@ -9,10 +9,8 @@ Show only items when room is selected
 Loading skeletons
 Snackbar for error and success
 Modal and drawer
-Validate URL in backend
+Loading in button forms
 
 // Next steps
-Implement toggle favorite
-Implement toggle purchased
-Implement edit item
-Implement delete item
+Make purchased toggle better
+Edit purchase option
