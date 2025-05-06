@@ -1,5 +1,7 @@
 import { EllipsisVerticalIcon, StarIcon } from "@heroicons/react/20/solid";
+import clsx from "clsx";
 import Image from "next/image";
+import { useState } from "react";
 
 import { useAlert } from "@/components/alert-context";
 import { Button } from "@/components/ui/button";
@@ -8,9 +10,11 @@ import { Text } from "@/components/ui/text";
 import { useItems } from "@/lib/hooks/items";
 import { PurchaseOption } from "@/lib/types";
 import { formatMoney } from "@/lib/utils";
-import clsx from "clsx";
+import { EditMetadataDialog } from "./edit-metadata-dialog";
 
 export function PurchaseOptionCard({ itemId, purchaseOption }: { itemId: string; purchaseOption: PurchaseOption }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   const { deletePurchaseOptionMutation, toggleFavoriteMutation } = useItems();
   const { showAlert } = useAlert();
 
@@ -48,7 +52,7 @@ export function PurchaseOptionCard({ itemId, purchaseOption }: { itemId: string;
               <EllipsisVerticalIcon />
             </DropdownButton>
             <DropdownMenu>
-              <DropdownItem onClick={() => {}}>Editar</DropdownItem>
+              <DropdownItem onClick={() => setIsOpen(true)}>Editar</DropdownItem>
               <DropdownItem onClick={handleDelete}>Deletar</DropdownItem>
             </DropdownMenu>
           </Dropdown>
@@ -69,6 +73,8 @@ export function PurchaseOptionCard({ itemId, purchaseOption }: { itemId: string;
           </Button>
         </div>
       </div>
+
+      <EditMetadataDialog metadata={purchaseOption.metadata} isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }

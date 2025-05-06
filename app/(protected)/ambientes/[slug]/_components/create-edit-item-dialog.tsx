@@ -75,7 +75,7 @@ export function CreateEditItemDialog({ roomId, item }: { roomId: string; item?: 
 
       <Dialog open={isOpen} onClose={setIsOpen}>
         <form onSubmit={form.handleSubmit(handleCreateEdit)}>
-          <DialogTitle>Adicionar item</DialogTitle>
+          <DialogTitle>{item ? 'Editar item' : 'Adicionar item'}</DialogTitle>
           <DialogBody>
             <Fieldset>
               <FieldGroup>

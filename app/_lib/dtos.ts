@@ -21,7 +21,14 @@ export const createPurchaseOptionSchema = z.object({
   itemId: z.string(),
 });
 
+export const editMetadataSchema = z.object({
+  title: z.string().min(1, "Campo obrigatório"),
+  price: z.string(),
+  imageUrl: z.string().min(1, "Campo obrigatório"),
+});
+
 export type LoginDto = z.infer<typeof loginSchema>;
 export type CreateRoomDto = z.infer<typeof createRoomSchema>;
 export type CreateEditItemDto = z.infer<typeof createEditItemSchema>;
 export type CreatePurchaseOptionDto = z.infer<typeof createPurchaseOptionSchema>;
+export type EditMetadaDto = z.infer<typeof editMetadataSchema>;

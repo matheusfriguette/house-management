@@ -2,8 +2,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useSlug } from "@/components/slug-context";
 import { createItem, deleteItem, editItem, togglePurchased } from "@/lib/api/items";
+import { editMetadata } from "@/lib/api/metadata";
 import { createPurchaseOption, deletePurchaseOption, toggleFavorite } from "@/lib/api/purchase-options";
-import { CreateEditItemDto, CreatePurchaseOptionDto } from "@/lib/dtos";
+import { CreateEditItemDto, CreatePurchaseOptionDto, EditMetadaDto } from "@/lib/dtos";
 import { Room } from "@/lib/types";
 
 export function useItems() {
@@ -114,6 +115,18 @@ export function useItems() {
     },
   });
 
+  const editMetadataMutation = useMutation({
+    mutationFn: async ({ id, dto }: { id: string; dto: EditMetadaDto }) => editMetadata(id, dto),
+    // onSuccess: (newItem, { id }) => {
+    //   queryClient.setQueryData(["room", slug], (room: Room) => {
+    //     return {
+    //       ...room,
+    //       items: room.items.map((item) => (item.id === id ? { ...item, ...newItem } : item)),
+    //     };
+    //   });
+    // },
+  });
+
   return {
     createItemMutation,
     editItemMutation,
@@ -122,5 +135,6 @@ export function useItems() {
     createPurchaseOptionMutation,
     deletePurchaseOptionMutation,
     toggleFavoriteMutation,
+    editMetadataMutation,
   };
 }

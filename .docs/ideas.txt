@@ -12,4 +12,3 @@ Make login more reliable
 
 // Next steps
 Make purchased toggle better
-Edit purchase option

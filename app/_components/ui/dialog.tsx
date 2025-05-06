@@ -3,7 +3,7 @@ import { XMarkIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import type React from "react";
 
-import { Text } from "./text";
+import { Text } from "@/components/ui/text";
 
 const sizes = {
   xs: "sm:max-w-xs",
@@ -76,10 +76,7 @@ export function DialogTitle({
 export function DialogDescription({
   className,
   ...props
-}: { className?: string } & Omit<
-  Headless.DescriptionProps<typeof Text>,
-  "className"
->) {
+}: { className?: string } & Omit<Headless.DescriptionProps<typeof Text>, "className">) {
   return (
     <Headless.Description
       as={Text}
@@ -89,17 +86,11 @@ export function DialogDescription({
   );
 }
 
-export function DialogBody({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+export function DialogBody({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   return <div {...props} className={clsx(className, "mt-4")} />;
 }
 
-export function DialogActions({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+export function DialogActions({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   return (
     <div
       {...props}
