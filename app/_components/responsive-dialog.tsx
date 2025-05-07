@@ -4,8 +4,8 @@ import { useMediaQuery } from "usehooks-ts";
 
 import {
   Drawer,
+  DrawerActions,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -51,7 +51,7 @@ export function ResponsiveDialog({
           <DrawerTitle>{title}</DrawerTitle>
         </DrawerHeader>
         {children}
-        {footer && <DrawerFooter>{footer}</DrawerFooter>}
+        {footer && <DrawerActions>{footer}</DrawerActions>}
       </DrawerContent>
     </Drawer>
   );
@@ -66,5 +66,5 @@ export function ResponsiveDialogFooter({
     return <div>{children}</div>;
   }
 
-  return <DrawerFooter>{children}</DrawerFooter>;
+  return <DrawerActions>{children}</DrawerActions>;
 }
