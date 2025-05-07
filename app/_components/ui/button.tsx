@@ -153,27 +153,15 @@ export const Button = forwardRef(function Button(
   const classes = clsx(
     className,
     styles.base,
-    outline
-      ? styles.outline
-      : plain
-        ? styles.plain
-        : clsx(styles.solid, styles.colors[color ?? "teal"]),
+    outline ? styles.outline : plain ? styles.plain : clsx(styles.solid, styles.colors[color ?? "teal"]),
   );
 
   return "href" in props ? (
-    <Link
-      {...props}
-      className={classes}
-      ref={ref as React.ForwardedRef<HTMLAnchorElement>}
-    >
+    <Link {...props} className={classes} ref={ref as React.ForwardedRef<HTMLAnchorElement>}>
       <TouchTarget>{children}</TouchTarget>
     </Link>
   ) : (
-    <Headless.Button
-      {...props}
-      className={clsx(classes, "cursor-default")}
-      ref={ref}
-    >
+    <Headless.Button {...props} className={clsx(classes, "cursor-default")} ref={ref}>
       <TouchTarget>{children}</TouchTarget>
     </Headless.Button>
   );
@@ -188,5 +176,16 @@ export function TouchTarget({ children }: { children: React.ReactNode }) {
       />
       {children}
     </>
+  );
+}
+
+export function SubmitButton({ isLoading, children, ...props }: { isLoading: boolean; children: React.ReactNode }) {
+  return (
+    <Button type="submit" disabled={isLoading} className="items-center" {...props}>
+      {isLoading && (
+        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+      )}
+      {isLoading ? "Salvando..." : children}
+    </Button>
   );
 }

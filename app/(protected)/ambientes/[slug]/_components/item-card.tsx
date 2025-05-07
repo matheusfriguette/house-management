@@ -1,5 +1,6 @@
 import { CheckCircleIcon, ChevronDownIcon, ChevronUpIcon, ClockIcon, TrashIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
+import { useMediaQuery } from "usehooks-ts";
 
 import { useAlert } from "@/components/alert-context";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +17,7 @@ import { PurchaseOptionCard } from "./purchase-option-card";
 export function ItemCard({ roomId, item }: { roomId: string; item: Item }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   const { deleteItemMutation, togglePurchasedMutation } = useItems();
   const { showAlert } = useAlert();
 
@@ -36,21 +38,20 @@ export function ItemCard({ roomId, item }: { roomId: string; item: Item }) {
 
   return (
     <>
-      <div className="flex items-center justify-between px-4">
-        <div className="flex gap-6 py-4">
-          <div className="flex items-center gap-2">
-            <Button plain onClick={() => setIsExpanded(!isExpanded)}>
-              {isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
-            </Button>
-            <div className="space-y-1">
-              <div className="text-base/6 font-semibold">{item.name}</div>
-              <Text>{item.description}</Text>
-            </div>
+      <div className="flex items-center justify-between gap-6 p-4">
+        <div className="flex min-w-0 items-center gap-2">
+          <Button plain onClick={() => setIsExpanded(!isExpanded)}>
+            {isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+          </Button>
+          <div className="space-y-1 overflow-hidden break-words">
+            <div className="line-clamp-2 text-base/6 font-semibold break-words">{item.name}</div>
+            <Text className="line-clamp-2 break-words">{item.description}</Text>
+            {!isDesktop && <Badge color={priorityBadge.color}>{priorityBadge.label}</Badge>}
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <Badge color={priorityBadge.color}>{priorityBadge.label}</Badge>
+        <div className="flex shrink-0 items-center gap-4">
+          {isDesktop && <Badge color={priorityBadge.color}>{priorityBadge.label}</Badge>}
 
           <ButtonGroup>
             <CreateEditItemDialog roomId={roomId} item={item} />
@@ -61,12 +62,12 @@ export function ItemCard({ roomId, item }: { roomId: string; item: Item }) {
               {item.isPurchased ? (
                 <>
                   <CheckCircleIcon className="!text-green-500" />
-                  <span>Comprado</span>
+                  {isDesktop && <span>Comprado</span>}
                 </>
               ) : (
                 <>
                   <ClockIcon className="!text-yellow-500" />
-                  <span>Pendente</span>
+                  {isDesktop && <span>Pendente</span>}
                 </>
               )}
             </ButtonGroupItem>

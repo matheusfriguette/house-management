@@ -2,9 +2,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useSlug } from "@/components/slug-context";
 import { createItem, deleteItem, editItem, togglePurchased } from "@/lib/api/items";
-import { editMetadata } from "@/lib/api/metadata";
-import { createPurchaseOption, deletePurchaseOption, toggleFavorite } from "@/lib/api/purchase-options";
-import { CreateEditItemDto, CreatePurchaseOptionDto, EditMetadaDto } from "@/lib/dtos";
+import {
+  createPurchaseOption,
+  deletePurchaseOption,
+  editPurchaseOption,
+  toggleFavorite,
+} from "@/lib/api/purchase-options";
+import { CreateEditItemDto, CreatePurchaseOptionDto, EditPurchaseOptionDto } from "@/lib/dtos";
 import { Room } from "@/lib/types";
 
 export function useItems() {
@@ -81,15 +85,41 @@ export function useItems() {
     },
   });
 
+  const editPurchaseOptionMutation = useMutation({
+    mutationFn: async ({ id, dto }: { id: string; itemId: string; dto: EditPurchaseOptionDto }) =>
+      editPurchaseOption(id, dto),
+    onSuccess: (newPurchaseOption, { id, itemId }) => {
+      queryClient.setQueryData(["room", slug], (room: Room) => {
+        return {
+          ...room,
+          items: room.items.map((item) =>
+            item.id === itemId
+              ? {
+                  ...item,
+                  purchaseOptions: item.purchaseOptions.map((purchaseOption) =>
+                    purchaseOption.id === id ? { ...purchaseOption, ...newPurchaseOption } : purchaseOption,
+                  ),
+                }
+              : item,
+          ),
+        };
+      });
+    },
+  });
+
   const deletePurchaseOptionMutation = useMutation({
-    mutationFn: async (id: string) => deletePurchaseOption(id),
-    onSuccess: (_, id: string) => {
+    mutationFn: async ({ id }: { id: string; itemId: string }) => deletePurchaseOption(id),
+    onSuccess: (_, { id, itemId }) => {
       queryClient.setQueryData(["room", slug], (room: Room) => ({
         ...room,
-        items: room.items.map((item) => ({
-          ...item,
-          purchaseOptions: item.purchaseOptions.filter((purchaseOption) => purchaseOption.id !== id),
-        })),
+        items: room.items.map((item) =>
+          item.id === itemId
+            ? {
+                ...item,
+                purchaseOptions: item.purchaseOptions.filter((purchaseOption) => purchaseOption.id !== id),
+              }
+            : item,
+        ),
       }));
     },
   });
@@ -115,26 +145,14 @@ export function useItems() {
     },
   });
 
-  const editMetadataMutation = useMutation({
-    mutationFn: async ({ id, dto }: { id: string; dto: EditMetadaDto }) => editMetadata(id, dto),
-    // onSuccess: (newItem, { id }) => {
-    //   queryClient.setQueryData(["room", slug], (room: Room) => {
-    //     return {
-    //       ...room,
-    //       items: room.items.map((item) => (item.id === id ? { ...item, ...newItem } : item)),
-    //     };
-    //   });
-    // },
-  });
-
   return {
     createItemMutation,
     editItemMutation,
     deleteItemMutation,
     togglePurchasedMutation,
     createPurchaseOptionMutation,
+    editPurchaseOptionMutation,
     deletePurchaseOptionMutation,
     toggleFavoriteMutation,
-    editMetadataMutation,
   };
 }

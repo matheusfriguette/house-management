@@ -1,8 +1,12 @@
 import api from "@/lib/api/client";
-import { CreatePurchaseOptionDto } from "@/lib/dtos";
+import { CreatePurchaseOptionDto, EditPurchaseOptionDto } from "@/lib/dtos";
 
 export async function createPurchaseOption(dto: CreatePurchaseOptionDto) {
   return await api.post("/purchase-options", dto);
+}
+
+export async function editPurchaseOption(id: string, dto: EditPurchaseOptionDto) {
+  return await api.put(`/purchase-options/${id}`, dto);
 }
 
 export async function deletePurchaseOption(id: string) {

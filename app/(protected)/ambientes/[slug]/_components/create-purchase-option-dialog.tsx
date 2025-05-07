@@ -6,9 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { Button } from "@/components/ui/button";
+import { Button, SubmitButton } from "@/components/ui/button";
 import { Dialog, DialogActions, DialogBody, DialogTitle } from "@/components/ui/dialog";
-import { FieldGroup } from "@/components/ui/fieldset";
+import { ErrorMessage, FieldGroup } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { CreatePurchaseOptionDto, createPurchaseOptionSchema } from "@/lib/dtos";
 import { useItems } from "@/lib/hooks/items";
@@ -29,6 +29,7 @@ export default function CreatePurchaseOptionDialog({ itemId }: { itemId: string 
     resolver: zodResolver(createPurchaseOptionSchema),
     defaultValues,
   });
+  const { errors, isSubmitting } = form.formState;
 
   useEffect(() => {
     if (isOpen) {
@@ -37,12 +38,8 @@ export default function CreatePurchaseOptionDialog({ itemId }: { itemId: string 
   }, [isOpen, form, defaultValues]);
 
   const handleCreate = async (data: CreatePurchaseOptionDto) => {
-    createPurchaseOptionMutation.mutate(data, {
-      onSuccess: () => {
-        setIsOpen(false);
-        form.reset();
-      },
-    });
+    await createPurchaseOptionMutation.mutateAsync(data);
+    setIsOpen(false);
   };
 
   return (
@@ -59,15 +56,14 @@ export default function CreatePurchaseOptionDialog({ itemId }: { itemId: string 
             <Fieldset>
               <FieldGroup>
                 <Field>
-                  <Input placeholder="URL" {...form.register("url")} invalid={Boolean(form.formState.errors.url)} />
+                  <Input placeholder="URL" {...form.register("url")} invalid={Boolean(errors.url)} />
+                  {errors.url && <ErrorMessage>{errors.url.message}</ErrorMessage>}
                 </Field>
               </FieldGroup>
             </Fieldset>
           </DialogBody>
           <DialogActions>
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              Salvar
-            </Button>
+            <SubmitButton isLoading={isSubmitting}>Salvar</SubmitButton>
           </DialogActions>
         </form>
       </Dialog>

@@ -6,12 +6,12 @@ export const loginSchema = z.object({
 });
 
 export const createRoomSchema = z.object({
-  name: z.string().min(1, "Campo obrigatório").max(50),
+  name: z.string().min(1, "Campo obrigatório").max(50, "O campo deve possuir no máximo 50 caracteres"),
 });
 
 export const createEditItemSchema = z.object({
-  name: z.string().min(1, "Campo obrigatório").max(100),
-  description: z.string().max(500).optional(),
+  name: z.string().min(1, "Campo obrigatório").max(50, "O campo deve possuir no máximo 50 caracteres"),
+  description: z.string().max(50, "O campo deve possuir no máximo 50 caracteres").optional(),
   priority: z.enum(["low", "medium", "high"]),
   roomId: z.string(),
 });
@@ -21,14 +21,26 @@ export const createPurchaseOptionSchema = z.object({
   itemId: z.string(),
 });
 
-export const editMetadataSchema = z.object({
-  title: z.string().min(1, "Campo obrigatório"),
-  price: z.string(),
-  imageUrl: z.string().min(1, "Campo obrigatório"),
+export const editPurchaseOptionSchema = z.object({
+  itemId: z.string(),
+  url: z.string().min(1, "Campo obrigatório").url("O campo precisa ser uma URL válida"),
+  metadata: z.object({
+    title: z.string().min(1, "Campo obrigatório").max(50, "O campo deve possuir no máximo 50 caracteres"),
+    price: z
+      .string()
+      .transform((val) => {
+        const numeric = val.replace(/[^\d,]/g, "").replace(",", ".");
+        return numeric;
+      })
+      .refine((val) => !isNaN(Number(val)), {
+        message: "O campo precisa ser um valor válido",
+      }),
+    imageUrl: z.string().min(1, "Campo obrigatório"),
+  }),
 });
 
 export type LoginDto = z.infer<typeof loginSchema>;
 export type CreateRoomDto = z.infer<typeof createRoomSchema>;
 export type CreateEditItemDto = z.infer<typeof createEditItemSchema>;
 export type CreatePurchaseOptionDto = z.infer<typeof createPurchaseOptionSchema>;
-export type EditMetadaDto = z.infer<typeof editMetadataSchema>;
+export type EditPurchaseOptionDto = z.infer<typeof editPurchaseOptionSchema>;

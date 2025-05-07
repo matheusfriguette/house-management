@@ -10,7 +10,7 @@ import { Text } from "@/components/ui/text";
 import { useItems } from "@/lib/hooks/items";
 import { PurchaseOption } from "@/lib/types";
 import { formatMoney } from "@/lib/utils";
-import { EditMetadataDialog } from "./edit-metadata-dialog";
+import { EditPurchaseOptionDialog } from "./edit-purchase-option-dialog";
 
 export function PurchaseOptionCard({ itemId, purchaseOption }: { itemId: string; purchaseOption: PurchaseOption }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +22,7 @@ export function PurchaseOptionCard({ itemId, purchaseOption }: { itemId: string;
     showAlert({
       title: "Você tem certeza que deseja deletar esse link?",
       onClose: () => {
-        deletePurchaseOptionMutation.mutate(purchaseOption.id);
+        deletePurchaseOptionMutation.mutate({ id: purchaseOption.id, itemId });
       },
     });
   };
@@ -74,7 +74,7 @@ export function PurchaseOptionCard({ itemId, purchaseOption }: { itemId: string;
         </div>
       </div>
 
-      <EditMetadataDialog metadata={purchaseOption.metadata} isOpen={isOpen} setIsOpen={setIsOpen} />
+      <EditPurchaseOptionDialog itemId={itemId} purchaseOption={purchaseOption} isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }

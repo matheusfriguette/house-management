@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { Button } from "@/components/ui/button";
+import { Button, SubmitButton } from "@/components/ui/button";
 import { ButtonGroupItem } from "@/components/ui/button-group";
 import { Dialog, DialogActions, DialogBody, DialogTitle } from "@/components/ui/dialog";
 import { ErrorMessage, Field, FieldGroup, Fieldset, Label } from "@/components/ui/fieldset";
@@ -35,6 +35,7 @@ export function CreateEditItemDialog({ roomId, item }: { roomId: string; item?: 
     resolver: zodResolver(createEditItemSchema),
     defaultValues,
   });
+  const { errors, isSubmitting } = form.formState;
 
   useEffect(() => {
     if (isOpen) {
@@ -44,21 +45,12 @@ export function CreateEditItemDialog({ roomId, item }: { roomId: string; item?: 
 
   const handleCreateEdit = async (data: CreateEditItemDto) => {
     if (!item) {
-      createItemMutation.mutate(data, {
-        onSuccess: () => {
-          setIsOpen(false);
-        },
-      });
+      await createItemMutation.mutateAsync(data);
     } else {
-      editItemMutation.mutate(
-        { id: item.id, dto: data },
-        {
-          onSuccess: () => {
-            setIsOpen(false);
-          },
-        },
-      );
+      await editItemMutation.mutateAsync({ id: item.id, dto: data });
     }
+
+    setIsOpen(false);
   };
 
   return (
@@ -75,19 +67,20 @@ export function CreateEditItemDialog({ roomId, item }: { roomId: string; item?: 
 
       <Dialog open={isOpen} onClose={setIsOpen}>
         <form onSubmit={form.handleSubmit(handleCreateEdit)}>
-          <DialogTitle>{item ? 'Editar item' : 'Adicionar item'}</DialogTitle>
+          <DialogTitle>{item ? "Editar item" : "Adicionar item"}</DialogTitle>
           <DialogBody>
             <Fieldset>
               <FieldGroup>
                 <Field>
                   <Label>Nome</Label>
-                  <Input {...form.register("name")} invalid={Boolean(form.formState.errors.name)} />
-                  {form.formState.errors.name && <ErrorMessage>{form.formState.errors.name.message}</ErrorMessage>}
+                  <Input {...form.register("name")} invalid={Boolean(errors.name)} />
+                  {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
                 </Field>
 
                 <Field>
                   <Label>Descrição</Label>
-                  <Input {...form.register("description")} />
+                  <Input {...form.register("description")} invalid={Boolean(errors.description)} />
+                  {errors.description && <ErrorMessage>{errors.description.message}</ErrorMessage>}
                 </Field>
 
                 <Field>
@@ -111,9 +104,7 @@ export function CreateEditItemDialog({ roomId, item }: { roomId: string; item?: 
             </Fieldset>
           </DialogBody>
           <DialogActions>
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              Salvar
-            </Button>
+            <SubmitButton isLoading={isSubmitting}>Salvar</SubmitButton>
           </DialogActions>
         </form>
       </Dialog>

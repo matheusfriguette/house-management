@@ -1,5 +1,6 @@
-import { Button, ButtonProps } from "@/components/ui/button";
 import clsx from "clsx";
+
+import { Button, ButtonProps } from "@/components/ui/button";
 
 export function ButtonGroup({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   return (
