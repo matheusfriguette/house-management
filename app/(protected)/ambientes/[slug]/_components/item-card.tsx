@@ -24,7 +24,7 @@ export function ItemCard({ roomId, item }: { roomId: string; item: Item }) {
   const handleDelete = () => {
     showAlert({
       title: "Você tem certeza que deseja deletar esse item?",
-      onClose: () => {
+      onConfirm: () => {
         deleteItemMutation.mutate(item.id);
       },
     });

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 type AlertOptions = {
   title: string;
   description?: string;
-  onClose?: () => void;
+  onConfirm?: () => void;
 };
 
 type AlertContextType = {
@@ -27,7 +27,7 @@ export function AlertProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const handleConfirm = () => {
-    alert?.onClose?.();
+    alert?.onConfirm?.();
     setAlert(null);
     setIsOpen(false);
   };

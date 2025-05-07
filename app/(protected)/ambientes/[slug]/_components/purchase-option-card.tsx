@@ -21,7 +21,7 @@ export function PurchaseOptionCard({ itemId, purchaseOption }: { itemId: string;
   const handleDelete = () => {
     showAlert({
       title: "Você tem certeza que deseja deletar esse link?",
-      onClose: () => {
+      onConfirm: () => {
         deletePurchaseOptionMutation.mutate({ id: purchaseOption.id, itemId });
       },
     });
