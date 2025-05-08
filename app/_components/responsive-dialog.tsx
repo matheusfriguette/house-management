@@ -1,70 +1,73 @@
+import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
-
 import { useMediaQuery } from "usehooks-ts";
 
-import {
-  Drawer,
-  DrawerActions,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import { Dialog, DialogActions, DialogBody, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerActions, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 
 export function ResponsiveDialog({
-  open,
-  onOpenChange,
+  isOpen,
+  setIsOpen,
   title,
   trigger,
   footer,
+  asForm,
+  onSubmit,
   children,
 }: React.ComponentProps<"div"> & {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
   title: string;
   trigger: React.ReactNode;
   footer?: React.ReactNode;
+  asForm?: boolean;
+  onSubmit?: React.FormEventHandler<HTMLFormElement>;
 }) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
     return (
-      <div></div>
-      // <Dialog open={open} onOpenChange={onOpenChange}>
-      //   <DialogTrigger asChild>{trigger}</DialogTrigger>
-      //   <DialogContent>
-      //     <DialogHeader>
-      //       <DialogTitle>{title}</DialogTitle>
-      //     </DialogHeader>
-      //     {children}
-      //     {footer && <DialogFooter>{footer}</DialogFooter>}
-      //   </DialogContent>
-      // </Dialog>
+      <>
+        <Slot onClick={() => setIsOpen(true)}>{trigger}</Slot>
+
+        <Dialog open={isOpen} onClose={setIsOpen}>
+          {asForm ? (
+            <form onSubmit={onSubmit}>
+              <DialogTitle>{title}</DialogTitle>
+              <DialogBody>{children}</DialogBody>
+              {footer && <DialogActions>{footer}</DialogActions>}
+            </form>
+          ) : (
+            <>
+              <DialogTitle>{title}</DialogTitle>
+              <DialogBody>{children}</DialogBody>
+              {footer && <DialogActions>{footer}</DialogActions>}
+            </>
+          )}
+        </Dialog>
+      </>
     );
   }
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>{title}</DrawerTitle>
         </DrawerHeader>
-        {children}
-        {footer && <DrawerActions>{footer}</DrawerActions>}
+        {asForm ? (
+          <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+            {children}
+            {footer && <DrawerActions>{footer}</DrawerActions>}
+          </form>
+        ) : (
+          <>
+            {children}
+            {footer && <DrawerActions>{footer}</DrawerActions>}
+          </>
+        )}
       </DrawerContent>
     </Drawer>
   );
-}
-
-export function ResponsiveDialogFooter({
-  children,
-}: React.ComponentProps<"div">) {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-
-  if (isDesktop) {
-    return <div>{children}</div>;
-  }
-
-  return <DrawerActions>{children}</DrawerActions>;
 }

@@ -6,9 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { ResponsiveDialog } from "@/components/responsive-dialog";
 import { Button, SubmitButton } from "@/components/ui/button";
 import { ButtonGroupItem } from "@/components/ui/button-group";
-import { Dialog, DialogActions, DialogBody, DialogTitle } from "@/components/ui/dialog";
 import { ErrorMessage, Field, FieldGroup, Fieldset, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Radio } from "@/components/ui/radio";
@@ -54,60 +54,58 @@ export function CreateEditItemDialog({ roomId, item }: { roomId: string; item?: 
   };
 
   return (
-    <>
-      {item ? (
-        <ButtonGroupItem onClick={() => setIsOpen(true)}>
-          <PencilSquareIcon />
-        </ButtonGroupItem>
-      ) : (
-        <Button type="button" color="teal" onClick={() => setIsOpen(true)}>
-          Adicionar item
-        </Button>
-      )}
+    <ResponsiveDialog
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      title={item ? "Editar item" : "Adicionar item"}
+      trigger={
+        item ? (
+          <ButtonGroupItem onClick={() => setIsOpen(true)}>
+            <PencilSquareIcon />
+          </ButtonGroupItem>
+        ) : (
+          <Button type="button" color="teal" onClick={() => setIsOpen(true)}>
+            Adicionar item
+          </Button>
+        )
+      }
+      footer={<SubmitButton isLoading={isSubmitting}>Salvar</SubmitButton>}
+      asForm
+      onSubmit={form.handleSubmit(handleCreateEdit)}
+    >
+      <Fieldset>
+        <FieldGroup>
+          <Field>
+            <Label>Nome</Label>
+            <Input {...form.register("name")} invalid={Boolean(errors.name)} autoFocus />
+            {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
+          </Field>
 
-      <Dialog open={isOpen} onClose={setIsOpen}>
-        <form onSubmit={form.handleSubmit(handleCreateEdit)}>
-          <DialogTitle>{item ? "Editar item" : "Adicionar item"}</DialogTitle>
-          <DialogBody>
-            <Fieldset>
-              <FieldGroup>
-                <Field>
-                  <Label>Nome</Label>
-                  <Input {...form.register("name")} invalid={Boolean(errors.name)} autoFocus />
-                  {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
-                </Field>
+          <Field>
+            <Label>Descrição</Label>
+            <Input {...form.register("description")} invalid={Boolean(errors.description)} />
+            {errors.description && <ErrorMessage>{errors.description.message}</ErrorMessage>}
+          </Field>
 
-                <Field>
-                  <Label>Descrição</Label>
-                  <Input {...form.register("description")} invalid={Boolean(errors.description)} />
-                  {errors.description && <ErrorMessage>{errors.description.message}</ErrorMessage>}
-                </Field>
-
-                <Field>
-                  <Label>Prioridade</Label>
-                  <Headless.RadioGroup
-                    value={form.watch("priority")}
-                    onChange={(value) => form.setValue("priority", value)}
-                    className="flex gap-6 sm:gap-8"
-                  >
-                    {["low", "medium", "high"].map((level) => (
-                      <Headless.Field key={level} className="flex items-center gap-2">
-                        <Radio value={level} color="teal" />
-                        <Headless.Label className="text-base/6 select-none sm:text-sm/6">
-                          {getPriorityBadge(level as Priority).label}
-                        </Headless.Label>
-                      </Headless.Field>
-                    ))}
-                  </Headless.RadioGroup>
-                </Field>
-              </FieldGroup>
-            </Fieldset>
-          </DialogBody>
-          <DialogActions>
-            <SubmitButton isLoading={isSubmitting}>Salvar</SubmitButton>
-          </DialogActions>
-        </form>
-      </Dialog>
-    </>
+          <Field>
+            <Label>Prioridade</Label>
+            <Headless.RadioGroup
+              value={form.watch("priority")}
+              onChange={(value) => form.setValue("priority", value)}
+              className="mt-1 flex gap-6 sm:gap-8"
+            >
+              {["low", "medium", "high"].map((level) => (
+                <Headless.Field key={level} className="flex items-center gap-2">
+                  <Radio value={level} color="teal" />
+                  <Headless.Label className="text-base/6 select-none sm:text-sm/6">
+                    {getPriorityBadge(level as Priority).label}
+                  </Headless.Label>
+                </Headless.Field>
+              ))}
+            </Headless.RadioGroup>
+          </Field>
+        </FieldGroup>
+      </Fieldset>
+    </ResponsiveDialog>
   );
 }

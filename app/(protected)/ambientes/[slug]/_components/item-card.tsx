@@ -11,7 +11,7 @@ import { useItems } from "@/lib/hooks/items";
 import { Item } from "@/lib/types";
 import { getPriorityBadge } from "@/lib/utils";
 import { CreateEditItemDialog } from "./create-edit-item-dialog";
-import CreatePurchaseOptionDialog from "./create-purchase-option-dialog";
+import { CreatePurchaseOptionDialog } from "./create-purchase-option-dialog";
 import { PurchaseOptionCard } from "./purchase-option-card";
 
 export function ItemCard({ roomId, item }: { roomId: string; item: Item }) {
