@@ -10,6 +10,7 @@ import { Text } from "@/components/ui/text";
 import { useItems } from "@/lib/hooks/items";
 import { Item } from "@/lib/types";
 import { getPriorityBadge } from "@/lib/utils";
+import clsx from "clsx";
 import { CreateEditItemDialog } from "./create-edit-item-dialog";
 import { CreatePurchaseOptionDialog } from "./create-purchase-option-dialog";
 import { PurchaseOptionCard } from "./purchase-option-card";
@@ -75,7 +76,9 @@ export function ItemCard({ roomId, item }: { roomId: string; item: Item }) {
         </div>
       </div>
 
-      {isExpanded && (
+      <div
+        className={clsx("grid overflow-hidden transition-all duration-500", isExpanded ? "max-h-[1000px]" : "max-h-0")}
+      >
         <div className="border-t border-zinc-950/10 bg-zinc-100 p-4 dark:border-white/10 dark:bg-zinc-800">
           <div className="flex items-center justify-between">
             <div className="font-medium">Links adicionados</div>
@@ -91,7 +94,7 @@ export function ItemCard({ roomId, item }: { roomId: string; item: Item }) {
             </div>
           )}
         </div>
-      )}
+      </div>
     </>
   );
 }

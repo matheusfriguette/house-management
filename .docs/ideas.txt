@@ -3,9 +3,6 @@
 // IDEAS
 Drag and drop
 
-// IMPROVEMENTS
-Make login more reliable
-
 // Next steps
-Snackbar for error and success
-Modal and drawer
+Home cards (needs back)
+Add user iinfo in purchase link card (needs back)

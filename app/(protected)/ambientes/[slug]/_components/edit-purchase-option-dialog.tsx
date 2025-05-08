@@ -4,8 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
+import { ResponsiveDialog } from "@/components/responsive-dialog";
 import { SubmitButton } from "@/components/ui/button";
-import { Dialog, DialogActions, DialogBody, DialogTitle } from "@/components/ui/dialog";
 import { ErrorMessage, Field, FieldGroup, Fieldset, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { EditPurchaseOptionDto, editPurchaseOptionSchema } from "@/lib/dtos";
@@ -56,46 +56,45 @@ export function EditPurchaseOptionDialog({
   };
 
   return (
-    <Dialog open={isOpen} onClose={setIsOpen}>
-      <form onSubmit={form.handleSubmit(handleEdit)}>
-        <DialogTitle>Editar dados</DialogTitle>
-        <DialogBody>
-          <Fieldset>
-            <FieldGroup>
-              <Field>
-                <Label>Título</Label>
-                <Input {...form.register("metadata.title")} invalid={Boolean(errors.metadata?.title)} autoFocus  />
-                {errors.metadata?.title && <ErrorMessage>{errors.metadata?.title.message}</ErrorMessage>}
-              </Field>
+    <ResponsiveDialog
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      title="Editar dados"
+      footer={<SubmitButton isLoading={isSubmitting}>Salvar</SubmitButton>}
+      asForm
+      onSubmit={form.handleSubmit(handleEdit)}
+    >
+      <Fieldset>
+        <FieldGroup>
+          <Field>
+            <Label>Título</Label>
+            <Input {...form.register("metadata.title")} invalid={Boolean(errors.metadata?.title)} autoFocus />
+            {errors.metadata?.title && <ErrorMessage>{errors.metadata?.title.message}</ErrorMessage>}
+          </Field>
 
-              <Field>
-                <Label>Preço</Label>
-                <Input
-                  {...form.register("metadata.price")}
-                  onChange={(e) => {
-                    const float = (Number(e.target.value.replace(/\D/g, "")) / 100).toFixed(2);
+          <Field>
+            <Label>Preço</Label>
+            <Input
+              {...form.register("metadata.price")}
+              onChange={(e) => {
+                const float = (Number(e.target.value.replace(/\D/g, "")) / 100).toFixed(2);
 
-                    form.setValue("metadata.price", formatMoney(Number(float)), {
-                      shouldValidate: true,
-                    });
-                  }}
-                  invalid={Boolean(errors.metadata?.price)}
-                />
-                {errors.metadata?.price && <ErrorMessage>{errors.metadata?.price.message}</ErrorMessage>}
-              </Field>
+                form.setValue("metadata.price", formatMoney(Number(float)), {
+                  shouldValidate: true,
+                });
+              }}
+              invalid={Boolean(errors.metadata?.price)}
+            />
+            {errors.metadata?.price && <ErrorMessage>{errors.metadata?.price.message}</ErrorMessage>}
+          </Field>
 
-              <Field>
-                <Label>URL da imagem</Label>
-                <Input {...form.register("metadata.imageUrl")} invalid={Boolean(errors.metadata?.imageUrl)} />
-                {errors.metadata?.imageUrl && <ErrorMessage>{errors.metadata?.imageUrl.message}</ErrorMessage>}
-              </Field>
-            </FieldGroup>
-          </Fieldset>
-        </DialogBody>
-        <DialogActions>
-          <SubmitButton isLoading={isSubmitting}>Salvar</SubmitButton>
-        </DialogActions>
-      </form>
-    </Dialog>
+          <Field>
+            <Label>URL da imagem</Label>
+            <Input {...form.register("metadata.imageUrl")} invalid={Boolean(errors.metadata?.imageUrl)} />
+            {errors.metadata?.imageUrl && <ErrorMessage>{errors.metadata?.imageUrl.message}</ErrorMessage>}
+          </Field>
+        </FieldGroup>
+      </Fieldset>
+    </ResponsiveDialog>
   );
 }

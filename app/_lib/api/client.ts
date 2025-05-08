@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-
 export const loginApi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
@@ -13,7 +11,6 @@ const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
   },
 });
 
@@ -24,17 +21,30 @@ loginApi.interceptors.response.use(
   },
 );
 
+api.interceptors.request.use((config) => {
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      window.location.href = "/login";
+    }
+  }
+
+  return config;
+});
+
 api.interceptors.response.use(
   (response) => response.data,
   (error) => {
     if (typeof window !== "undefined") {
-      // const status = error.response?.status;
+      const status = error.response?.status;
 
-      // if (status === 401 || status === 403) {
-      //   localStorage.removeItem("token");
-      //   window.location.href = "/login";
-      //   return;
-      // }
+      if (status === 401 || status === 403) {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+        return;
+      }
     }
 
     throw error.response?.data || error.message;

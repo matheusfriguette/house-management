@@ -18,7 +18,7 @@ export function ResponsiveDialog({
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   title: string;
-  trigger: React.ReactNode;
+  trigger?: React.ReactNode;
   footer?: React.ReactNode;
   asForm?: boolean;
   onSubmit?: React.FormEventHandler<HTMLFormElement>;
@@ -28,7 +28,7 @@ export function ResponsiveDialog({
   if (isDesktop) {
     return (
       <>
-        <Slot onClick={() => setIsOpen(true)}>{trigger}</Slot>
+        {trigger && <Slot onClick={() => setIsOpen(true)}>{trigger}</Slot>}
 
         <Dialog open={isOpen} onClose={setIsOpen}>
           {asForm ? (
@@ -51,7 +51,8 @@ export function ResponsiveDialog({
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
-      <DrawerTrigger asChild>{trigger}</DrawerTrigger>
+      {trigger && <DrawerTrigger asChild>{trigger}</DrawerTrigger>}
+
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>{title}</DrawerTitle>

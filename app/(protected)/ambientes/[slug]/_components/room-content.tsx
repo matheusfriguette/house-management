@@ -26,11 +26,11 @@ function RoomContentSkeleton() {
                 <div className="space-y-2">
                   <Skeleton className="h-6 w-24" />
                   <Skeleton className="h-4 w-36 sm:w-64" />
-                  <Skeleton className="h-5 w-12 block sm:hidden" />
+                  <Skeleton className="block h-5 w-12 sm:hidden" />
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <Skeleton className="h-5 w-12 hidden sm:block" />
+                <Skeleton className="hidden h-5 w-12 sm:block" />
                 <div className="flex gap-2">
                   <Skeleton className="h-8 w-8" />
                   <Skeleton className="h-8 w-8" />

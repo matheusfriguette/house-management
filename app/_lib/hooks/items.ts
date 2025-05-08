@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useSlug } from "@/components/slug-context";
+import { useToast } from "@/components/toast-context";
 import { createItem, deleteItem, editItem, togglePurchased } from "@/lib/api/items";
 import {
   createPurchaseOption,
@@ -13,6 +14,8 @@ import { Room } from "@/lib/types";
 
 export function useItems() {
   const slug = useSlug();
+  const { showToast } = useToast();
+
   const queryClient = useQueryClient();
 
   const createItemMutation = useMutation({
@@ -24,6 +27,10 @@ export function useItems() {
           items: [...room.items, item],
         };
       });
+      showToast({ message: "Item adicionado com sucesso!", state: "success" });
+    },
+    onError: () => {
+      showToast({ message: "Erro ao adicionar item!", state: "error" });
     },
   });
 
@@ -36,6 +43,10 @@ export function useItems() {
           items: room.items.map((item) => (item.id === id ? { ...item, ...newItem } : item)),
         };
       });
+      showToast({ message: "Item editado com sucesso!", state: "success" });
+    },
+    onError: () => {
+      showToast({ message: "Erro ao editar item!", state: "error" });
     },
   });
 
@@ -46,6 +57,10 @@ export function useItems() {
         ...room,
         items: room.items.filter((item) => item.id !== id),
       }));
+      showToast({ message: "Item deletado com sucesso!", state: "success" });
+    },
+    onError: () => {
+      showToast({ message: "Erro ao deletar item!", state: "error" });
     },
   });
 
@@ -63,6 +78,9 @@ export function useItems() {
             : item,
         ),
       }));
+    },
+    onError: () => {
+      showToast({ message: "Erro ao alterar status do item!", state: "error" });
     },
   });
 
@@ -82,6 +100,10 @@ export function useItems() {
           ),
         };
       });
+      showToast({ message: "Link adicionado com sucesso!", state: "success" });
+    },
+    onError: () => {
+      showToast({ message: "Erro ao adicionar link!", state: "error" });
     },
   });
 
@@ -104,6 +126,10 @@ export function useItems() {
           ),
         };
       });
+      showToast({ message: "Link editado com sucesso!", state: "success" });
+    },
+    onError: () => {
+      showToast({ message: "Erro ao editar link!", state: "error" });
     },
   });
 
@@ -121,6 +147,10 @@ export function useItems() {
             : item,
         ),
       }));
+      showToast({ message: "Link deletado com sucesso!", state: "success" });
+    },
+    onError: () => {
+      showToast({ message: "Erro ao deletar link!", state: "error" });
     },
   });
 
@@ -142,6 +172,9 @@ export function useItems() {
             : item,
         ),
       }));
+    },
+    onError: () => {
+      showToast({ message: "Erro ao favoritar link!", state: "error" });
     },
   });
 

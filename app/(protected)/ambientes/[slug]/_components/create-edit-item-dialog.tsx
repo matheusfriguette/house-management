@@ -60,11 +60,11 @@ export function CreateEditItemDialog({ roomId, item }: { roomId: string; item?: 
       title={item ? "Editar item" : "Adicionar item"}
       trigger={
         item ? (
-          <ButtonGroupItem onClick={() => setIsOpen(true)}>
+          <ButtonGroupItem>
             <PencilSquareIcon />
           </ButtonGroupItem>
         ) : (
-          <Button type="button" color="teal" onClick={() => setIsOpen(true)}>
+          <Button type="button" color="teal">
             Adicionar item
           </Button>
         )
