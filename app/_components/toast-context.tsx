@@ -29,18 +29,18 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [options, setOptions] = useState<ToastOptions>({
+  const [toast, setToast] = useState<ToastOptions>({
     message: "",
     state: "default",
   });
 
   const showToast = useCallback(({ message, state = "default" }: ToastOptions) => {
-    setOptions({ message, state });
+    setToast({ message, state });
     setIsOpen(true);
     setTimeout(() => setIsOpen(false), 3000);
   }, []);
 
-  const classes = clsx(styles.base, clsx(styles.states[options.state ?? "default"]));
+  const classes = clsx(styles.base, clsx(styles.states[toast.state ?? "default"]));
 
   return (
     <ToastContext.Provider value={{ showToast }}>
@@ -62,9 +62,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             <div className={classes}>
               <div className="p-4">
                 <div className="flex items-start">
-                  {icons[options.state ?? "default"]}
+                  {icons[toast.state ?? "default"]}
                   <div className="w-0 flex-1 pt-0.5">
-                    <p className="text-sm font-medium">{options.message}</p>
+                    <p className="text-sm font-medium">{toast.message}</p>
                   </div>
                   <div className="ml-4 flex-shrink-0">
                     <button

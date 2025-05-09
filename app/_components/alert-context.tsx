@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useState } from "react";
 
-import { Alert, AlertActions, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { ResponsiveAlert } from "@/components/responsive-alert";
 import { Button } from "@/components/ui/button";
 
 type AlertOptions = {
@@ -36,16 +36,20 @@ export function AlertProvider({ children }: { children: React.ReactNode }) {
     <AlertContext.Provider value={{ showAlert }}>
       {children}
       {alert && (
-        <Alert open={isOpen} onClose={setIsOpen}>
-          <AlertTitle>{alert.title}</AlertTitle>
-          {alert.description && <AlertDescription>{alert.description}</AlertDescription>}
-          <AlertActions>
-            <Button plain onClick={() => setAlert(null)}>
-              Cancelar
-            </Button>
-            <Button onClick={handleConfirm}>Confirmar</Button>
-          </AlertActions>
-        </Alert>
+        <ResponsiveAlert
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          title={alert.title}
+          description={alert.description}
+          footer={
+            <>
+              <Button outline onClick={() => setAlert(null)}>
+                Cancelar
+              </Button>
+              <Button onClick={handleConfirm}>Confirmar</Button>
+            </>
+          }
+        />
       )}
     </AlertContext.Provider>
   );

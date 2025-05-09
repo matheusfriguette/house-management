@@ -3,6 +3,42 @@
 // IDEAS
 Drag and drop
 
+
 // Next steps
-Home cards (needs back)
 Add user iinfo in purchase link card (needs back)
+
+
+✨ Additional App Feature Ideas
+1. Price Tracking Over Time
+Track changes in the price of favorite items over time (requires a cron job + scraping or third-party API).
+
+Alert user if price drops.
+
+2. Collaborative Mode
+Allow multiple users to access/edit the same house setup (e.g., couples moving in).
+
+Real-time updates or change tracking (e.g., “John added ‘Microwave’ to Kitchen”).
+
+3. Budget & Spending Goals
+Let users set a budget per room or total.
+
+Show if they’re above, below, or on track.
+
+4. Notes & To-Dos per Room
+Example: “Paint walls before buying shelves”
+
+Could be tied to item priorities or standalone.
+
+5. Filter & Sort Options in Item View
+Filter by: Purchased, Priority, Cheapest Option, Category (if you add it)
+
+Sort items by: Price, Priority, Added Date
+
+6. Printable or Shareable Checklist
+Export room/item list as a printable or shareable checklist (PDF or link)
+
+7. Room Templates
+Predefined room types with common starter items (e.g. Kitchen → Plates, Microwave, Fridge).
+
+8. Mobile-first Design Considerations
+Make the dashboard visually engaging on mobile — swipeable cards for rooms, bottom sheet for filters, etc.

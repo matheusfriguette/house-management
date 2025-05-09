@@ -77,7 +77,7 @@ export function CreateEditItemDialog({ roomId, item }: { roomId: string; item?: 
         <FieldGroup>
           <Field>
             <Label>Nome</Label>
-            <Input {...form.register("name")} invalid={Boolean(errors.name)} autoFocus />
+            <Input {...form.register("name")} invalid={Boolean(errors.name)} />
             {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
           </Field>
 

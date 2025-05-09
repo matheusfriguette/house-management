@@ -60,7 +60,7 @@ export function CreatePurchaseOptionDialog({ itemId }: { itemId: string }) {
       <Fieldset>
         <FieldGroup>
           <Field>
-            <Input placeholder="URL" {...form.register("url")} invalid={Boolean(errors.url)} autoFocus />
+            <Input placeholder="URL" {...form.register("url")} invalid={Boolean(errors.url)} />
             {errors.url && <ErrorMessage>{errors.url.message}</ErrorMessage>}
           </Field>
         </FieldGroup>

@@ -1,8 +1,34 @@
+export type Rooms = {
+  favoriteCost: number;
+  cheapestCost: number;
+  boughtItems: number;
+  totalItems: number;
+  completedRooms: number;
+  rooms: Room[];
+};
+
 export type Room = {
   id: string;
   name: string;
   slug: string;
-  items: Item[];
+  favoriteCost: number;
+  cheapestCost: number;
+  totalItems: number;
+  boughtItems: number;
+  itemsByPriority: {
+    high: {
+      bought: number;
+      total: number;
+    };
+    medium: {
+      bought: number;
+      total: number;
+    };
+    low: {
+      bought: number;
+      total: number;
+    };
+  };
 };
 
 export type Priority = "low" | "medium" | "high";

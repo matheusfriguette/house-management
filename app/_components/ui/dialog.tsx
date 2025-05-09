@@ -47,7 +47,7 @@ export function Dialog({
           >
             {children}
 
-            <Headless.CloseButton className="absolute top-6 right-6 rounded-full text-zinc-400 hover:text-zinc-500 focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-blue-500 [&_svg]:shrink-0">
+            <Headless.CloseButton className="absolute top-6 right-6 rounded-full text-zinc-400 hover:text-zinc-500 focus:not-data-focus:outline-hidden data-focus:outline-2 data-focus:outline-offset-2 data-focus:outline-teal-500 [&_svg]:shrink-0">
               <XMarkIcon className="size-6" />
               <span className="sr-only">Close</span>
             </Headless.CloseButton>

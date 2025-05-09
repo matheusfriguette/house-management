@@ -68,7 +68,7 @@ export function EditPurchaseOptionDialog({
         <FieldGroup>
           <Field>
             <Label>Título</Label>
-            <Input {...form.register("metadata.title")} invalid={Boolean(errors.metadata?.title)} autoFocus />
+            <Input {...form.register("metadata.title")} invalid={Boolean(errors.metadata?.title)} />
             {errors.metadata?.title && <ErrorMessage>{errors.metadata?.title.message}</ErrorMessage>}
           </Field>
 
