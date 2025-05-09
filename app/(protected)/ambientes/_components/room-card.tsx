@@ -3,10 +3,10 @@
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
-import { Room } from "@/lib/types";
+import { DashboardRoom } from "@/lib/types";
 import { formatMoney } from "@/lib/utils";
 
-export function RoomCard({ room }: { room: Room }) {
+export function RoomCard({ room }: { room: DashboardRoom }) {
   const percent = room.totalItems > 0 ? (room.boughtItems / room.totalItems) * 100 : 0;
 
   const gradientLight = `conic-gradient(var(--color-teal-500) 0% ${percent}%, var(--color-zinc-200) ${percent}% 100%)`;

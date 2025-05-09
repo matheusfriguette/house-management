@@ -1,8 +1,8 @@
 import api from "@/lib/api/client";
 import { CreateRoomDto } from "@/lib/dtos";
-import { Room, Rooms } from "@/lib/types";
+import { Dashboard, Room } from "@/lib/types";
 
-export async function listRooms(): Promise<Rooms> {
+export async function listRooms(): Promise<Dashboard> {
   return await api.get("/rooms");
 }
 

@@ -1,13 +1,13 @@
-export type Rooms = {
+export type Dashboard = {
   favoriteCost: number;
   cheapestCost: number;
   boughtItems: number;
   totalItems: number;
   completedRooms: number;
-  rooms: Room[];
+  rooms: DashboardRoom[];
 };
 
-export type Room = {
+export type DashboardRoom = {
   id: string;
   name: string;
   slug: string;
@@ -29,6 +29,13 @@ export type Room = {
       total: number;
     };
   };
+};
+
+export type Room = {
+  id: string;
+  name: string;
+  slug: string;
+  items: Item[];
 };
 
 export type Priority = "low" | "medium" | "high";
