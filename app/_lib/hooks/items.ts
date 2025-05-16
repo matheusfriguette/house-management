@@ -173,7 +173,7 @@ export function useItems() {
                 purchaseOptions: item.purchaseOptions.map((purchaseOption) =>
                   purchaseOption.id === id
                     ? { ...purchaseOption, isFavorite: !purchaseOption.isFavorite }
-                    : { ...purchaseOption, isFavorite: false },
+                    : purchaseOption,
                 ),
               }
             : item,

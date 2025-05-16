@@ -2,9 +2,9 @@
 
 - [X]  Talheres (Facas, garfos, colheres, colheres de sopa)
 - [ ]  Espatulazinha de passar manteiga e pa
-- [ ]  Copos
-    - [ ]  Copos Pequenos (200-350ml)
-    - [ ]  Copos Grandes (400ml+)
+- [X]  Copos
+    - [X]  Copos Pequenos (200-350ml)
+    - [X]  Copos Grandes (400ml+)
     - [ ]  Taças
     - [ ]  Xícaras
 - [ ]  Pratos
