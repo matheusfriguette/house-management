@@ -36,7 +36,7 @@ export function RoomCard({ room }: { room: DashboardRoom }) {
 
       <div className="mt-8 space-y-1">
         <div className="flex items-center justify-between">
-          <div className="text-zinc-500 dark:text-zinc-400">Custo atual</div>
+          <div className="text-zinc-500 dark:text-zinc-400">Custo favoritado</div>
           <div className="font-medium">{formatMoney(room.favoriteCost)}</div>
         </div>
 
