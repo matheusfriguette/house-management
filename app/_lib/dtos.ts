@@ -11,7 +11,7 @@ export const createRoomSchema = z.object({
 
 export const createEditItemSchema = z.object({
   name: z.string().min(1, "Campo obrigatório").max(50, "O campo deve possuir no máximo 50 caracteres"),
-  description: z.string().max(50, "O campo deve possuir no máximo 50 caracteres").optional(),
+  description: z.string().optional(),
   priority: z.enum(["low", "medium", "high"]),
   roomId: z.string(),
 });

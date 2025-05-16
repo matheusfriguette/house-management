@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
 import clsx from "clsx";
-import Image from "next/image";
 
 export function Avatar({
   src,
@@ -20,9 +20,9 @@ export function Avatar({
       {...props}
       className={clsx(
         className,
-        "inline-grid shrink-0 align-middle [--avatar-radius:20%] [--ring-opacity:20%] *:col-start-1 *:row-start-1",
-        "outline -outline-offset-1 outline-black/[--ring-opacity] dark:outline-white/[--ring-opacity]",
-        square ? "rounded-[--avatar-radius] *:rounded-[--avatar-radius]" : "rounded-full *:rounded-full",
+        "inline-grid shrink-0 align-middle [--avatar-radius:20%] *:col-start-1 *:row-start-1",
+        "outline -outline-offset-1 outline-black/10 dark:outline-white/10",
+        square ? "rounded-(--avatar-radius) *:rounded-(--avatar-radius)" : "rounded-full *:rounded-full",
       )}
     >
       {initials && (
@@ -37,7 +37,7 @@ export function Avatar({
           </text>
         </svg>
       )}
-      {src && <Image className="size-full" src={src} alt={alt} fill />}
+      {src && <img className="size-full" src={src} alt={alt} />}
     </span>
   );
 }

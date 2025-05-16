@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { useAlert } from "@/components/alert-context";
+import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from "@/components/ui/dropdown";
 import { Text } from "@/components/ui/text";
@@ -59,6 +60,11 @@ export function PurchaseOptionCard({ itemId, purchaseOption }: { itemId: string;
         </div>
 
         <Text>{new URL(purchaseOption.url).hostname}</Text>
+
+        <div className="flex items-center gap-2">
+          <Avatar className="size-6" src={purchaseOption.user.profileImageUrl} />
+          <Text>{purchaseOption.user.name}</Text>
+        </div>
 
         <div className="flex items-center justify-between gap-1">
           <div className="font-medium">{formatMoney(purchaseOption.metadata.price)}</div>

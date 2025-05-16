@@ -40,7 +40,7 @@ api.interceptors.response.use(
     if (typeof window !== "undefined") {
       const status = error.response?.status;
 
-      if (status === 401 || status === 403) {
+      if (!error.response || status === 401 || status === 403) {
         localStorage.removeItem("token");
         window.location.href = "/login";
         return;

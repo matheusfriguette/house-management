@@ -28,6 +28,7 @@ export function useItems() {
         };
       });
       showToast({ message: "Item adicionado com sucesso!", state: "success" });
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
     onError: () => {
       showToast({ message: "Erro ao adicionar item!", state: "error" });
@@ -44,6 +45,7 @@ export function useItems() {
         };
       });
       showToast({ message: "Item editado com sucesso!", state: "success" });
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
     onError: () => {
       showToast({ message: "Erro ao editar item!", state: "error" });
@@ -58,6 +60,7 @@ export function useItems() {
         items: room.items.filter((item) => item.id !== id),
       }));
       showToast({ message: "Item deletado com sucesso!", state: "success" });
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
     onError: () => {
       showToast({ message: "Erro ao deletar item!", state: "error" });
@@ -78,6 +81,7 @@ export function useItems() {
             : item,
         ),
       }));
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
     onError: () => {
       showToast({ message: "Erro ao alterar status do item!", state: "error" });
@@ -101,6 +105,7 @@ export function useItems() {
         };
       });
       showToast({ message: "Link adicionado com sucesso!", state: "success" });
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
     onError: () => {
       showToast({ message: "Erro ao adicionar link!", state: "error" });
@@ -127,6 +132,7 @@ export function useItems() {
         };
       });
       showToast({ message: "Link editado com sucesso!", state: "success" });
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
     onError: () => {
       showToast({ message: "Erro ao editar link!", state: "error" });
@@ -148,6 +154,7 @@ export function useItems() {
         ),
       }));
       showToast({ message: "Link deletado com sucesso!", state: "success" });
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
     onError: () => {
       showToast({ message: "Erro ao deletar link!", state: "error" });
@@ -172,6 +179,7 @@ export function useItems() {
             : item,
         ),
       }));
+      queryClient.invalidateQueries({ queryKey: ["rooms"] });
     },
     onError: () => {
       showToast({ message: "Erro ao favoritar link!", state: "error" });

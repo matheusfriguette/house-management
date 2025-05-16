@@ -12,6 +12,7 @@ import { ButtonGroupItem } from "@/components/ui/button-group";
 import { ErrorMessage, Field, FieldGroup, Fieldset, Label } from "@/components/ui/fieldset";
 import { Input } from "@/components/ui/input";
 import { Radio } from "@/components/ui/radio";
+import { Textarea } from "@/components/ui/textarea";
 import { CreateEditItemDto, createEditItemSchema } from "@/lib/dtos";
 import { useItems } from "@/lib/hooks/items";
 import { Item, Priority } from "@/lib/types";
@@ -83,7 +84,7 @@ export function CreateEditItemDialog({ roomId, item }: { roomId: string; item?: 
 
           <Field>
             <Label>Descrição</Label>
-            <Input {...form.register("description")} invalid={Boolean(errors.description)} />
+            <Textarea {...form.register("description")} invalid={Boolean(errors.description)} />
             {errors.description && <ErrorMessage>{errors.description.message}</ErrorMessage>}
           </Field>
 

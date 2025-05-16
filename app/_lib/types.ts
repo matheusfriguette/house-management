@@ -8,7 +8,6 @@ export type Dashboard = {
 };
 
 export type DashboardRoom = {
-  id: string;
   name: string;
   slug: string;
   favoriteCost: number;
@@ -54,6 +53,14 @@ export type PurchaseOption = {
   url: string;
   isFavorite: boolean;
   metadata: Metadata;
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    name: string;
+    profileImageUrl: string;
+    createdAt: string;
+  };
 };
 
 export type Metadata = {
